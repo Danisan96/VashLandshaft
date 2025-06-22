@@ -1,11 +1,14 @@
 <?php
+
 session_start();
 require_once 'logger.php';
+Logger::init();
 
 $host = '84.252.74.178';
 $dbname = 'land';
-$username = 'landadmin';
-$password = 'Danisan';
+$username = 'root';
+$password = '1scxdL5yUUcp';
+
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

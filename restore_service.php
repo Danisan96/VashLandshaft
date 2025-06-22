@@ -26,3 +26,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['service_id'])) {
 
 header("Location: admin.php");
 exit;
+?>

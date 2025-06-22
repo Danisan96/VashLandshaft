@@ -13,6 +13,14 @@ $data = json_decode($input, true);
 
 Logger::log("Register attempt: " . print_r($data, true));
 
+// Проверка CSRF-токена
+if (!isset($data['csrf_token']) || $data['csrf_token'] !== $_SESSION['csrf_token']) {
+    $error = "Неверный CSRF-токен";
+    Logger::logError($error);
+    echo json_encode(['success' => false, 'message' => $error]);
+    exit;
+}
+
 if (!$data) {
     $error = "Invalid JSON data";
     Logger::logError($error);
@@ -61,7 +69,13 @@ try {
         'role' => 'user'
     ];
     
-    echo json_encode(['success' => true, 'user' => $_SESSION['user']]);
+    // Обновляем время сессии
+    session_regenerate_id(true);
+    
+    echo json_encode([
+        'success' => true, 
+        'user' => $_SESSION['user']
+    ]);
 } catch (PDOException $e) {
     $error = 'Ошибка базы данных: ' . $e->getMessage();
     Logger::logError($error);

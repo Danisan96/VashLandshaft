@@ -54,3 +54,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['service_id'])) {
 // Возвращаем на предыдущую страницу
 header("Location: " . ($_SERVER['HTTP_REFERER'] ?? 'index.php'));
 exit;
+?>

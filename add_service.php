@@ -23,11 +23,12 @@ try {
     // Добавление услуги
     $title = $_POST['title'];
     $description = $_POST['description'];
+    $price = (float)$_POST['price']; // Исправлено: получаем цену
     
-    Logger::log("Adding service: $title");
+    Logger::log("Adding service: $title (Price: $price)");
     
-    $stmt = $pdo->prepare("INSERT INTO services (title, description, created_by) VALUES (?, ?, ?)");
-    $stmt->execute([$title, $description, $_SESSION['user']['id']]);
+    $stmt = $pdo->prepare("INSERT INTO services (title, description, price, created_by) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$title, $description, $price, $_SESSION['user']['id']]);
     $serviceId = $pdo->lastInsertId();
     
     // Обработка изображений

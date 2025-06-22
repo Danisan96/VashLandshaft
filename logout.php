@@ -5,7 +5,18 @@ session_start();
 // Логирование запроса
 Logger::logRequest();
 
+header('Content-Type: application/json');
+
 try {
+    // Проверка CSRF-токена
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
+    
+    if (!isset($data['csrf_token']) || $data['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo json_encode(['success' => false, 'message' => 'Неверный CSRF-токен']);
+        exit;
+    }
+
     // Получаем имя пользователя до уничтожения сессии
     $username = $_SESSION['user']['username'] ?? 'unknown';
     
